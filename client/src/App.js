@@ -1,12 +1,20 @@
 import React from "react";
 import "./App.css";
-// import the Container Component from the semantic-ui-react
-import { Container } from "semantic-ui-react";
-// import the ToDoList component
+import { Container, Divider, Header } from "semantic-ui-react";
 import SkillList from "./Skill-List";
+
 function App() {
   return (
     <div>
+      <Container>
+      <div className="row" style={{ padding: 40 }}>
+        <Header className="header" as="h1" textAlign="left">
+          Aerial Lingo
+        </Header>
+      </div>
+      <Divider/>
+      </Container>
+
       <Container>
         <SkillList />
       </Container>
