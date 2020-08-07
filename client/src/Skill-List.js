@@ -1,20 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Card, Accordion, Form, Input, Icon} from "semantic-ui-react";
-import AddSkill from "./Add-Skill";
+import { Card, Input, Icon, Button} from "semantic-ui-react";
 
 let endpoint = "http://localhost:8080";
 
-class SkillList extends Component {
-  state = { activeIndex: 0 }
-
-  handleClick = (e, titleProps) => {
-    const { index } = titleProps
-    const { activeIndex } = this.state
-    const newIndex = activeIndex === index ? -1 : index
-
-    this.setState({ activeIndex: newIndex })
-  }
+export default class SkillList extends Component {
 
   constructor(props) {
     super(props);
@@ -29,37 +19,8 @@ class SkillList extends Component {
     this.getSkill();
   }
 
-  /*onChange = event => {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
-  };*/
-
   onSubmit = () => {
-    /*let { name } = this.state;
-    
-    if (name) {
-      axios
-        .post(
-          endpoint + "/api/skill",
-          {
-            name,
 
-          },
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded"
-            }
-          }
-        )
-        .then(res => {
-          this.getSkill();
-          this.setState({
-            name: ""
-          });
-          console.log(res);
-        });
-    }*/
   };
 
   getSkill = () => {
@@ -85,9 +46,6 @@ class SkillList extends Component {
                 break;
             }
 
-            /*if (item.status) {
-              color = "green";
-            }*/
             return (
               <Card key={item._id} color={color}>
                 <Card.Content>
@@ -135,51 +93,30 @@ class SkillList extends Component {
         this.getSkill();
       });
   };
+
+  search = () => {
+    console.log("SEARCH");
+  };
+
   render() {
-    const { activeIndex } = this.state
     return (
-      <Accordion>
-        <Accordion.Title
-          active={activeIndex === 0}
-          index={0}
-          onClick={this.handleClick}
-        >
-          <Icon name='dropdown' />
-          About this site
-        </Accordion.Title>
-        <Accordion.Content active={activeIndex === 0}>
-        <p>Identifying an aerial skill can be really difficult! This site hopes to help make discussions easier
-          by providing aerialists with an easy way to lookup skill names. Several different skills may come up 
-          under one name. That's okay! Hopefully one of them matches what you had in mind. If not, maybe take
-          the time to add it, along with a link showing an example. Future aerialists would appreciate it!
-        </p>
-        <p>Super fun disclaimer time! All descriptions and examples are provided to help with conversations. 
-          They are not designed to teach new skills. The best way to learn how to perform new skills, tricks, 
-          and transitions is through an instructor.
-        </p>
-        </Accordion.Content>
-        <Accordion.Title
-          active={activeIndex === 1}
-          index={1}
-          onClick={this.handleClick}
-        >
-          <Icon name='dropdown' />
-          Add a skill
-        </Accordion.Title>
-        <Accordion.Content active={activeIndex === 1}>
-        <AddSkill/>
-        </Accordion.Content>
+      <div>
         <div className="row" style={{padding: 16}}>
-          <Form>
-            <Input fluid action='Search' placeholder='Search...' />
-          </Form>
+          <Input 
+            fluid 
+            action={
+              <Button 
+                content='Search'
+                onClick={() => this.search()}
+              />
+            } 
+            placeholder='Search...' 
+          />
         </div>
         <div className="row">
           <Card.Group centered>{this.state.items}</Card.Group>
         </div>
-      </Accordion>
+      </div>
     );
   }
 }
-
-export default SkillList;

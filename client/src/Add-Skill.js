@@ -17,7 +17,7 @@ const extras = [
   { key: 'b', text: 'Drop and Invert', value: 'Drop and Invert' },
 ]
 
-class AddSkill extends Component {
+export default class AddSkill extends Component {
   constructor(props) {
     super(props);
 
@@ -86,7 +86,7 @@ class AddSkill extends Component {
 
   render() {
     return (
-    <div className="row">
+    <div className="row" style={{padding: 16}}>
       <Form onSubmit={this.onSubmit}>
         <Form.Group widths='equal'>
           <Form.Field
@@ -133,5 +133,3 @@ class AddSkill extends Component {
     );
   }
 }
-
-export default AddSkill;
