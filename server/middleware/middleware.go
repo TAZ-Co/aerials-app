@@ -64,6 +64,16 @@ func GetAllSkills(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(payload)
 }
 
+func GetSelectSkills(w http.ResponseWriter, r *http.Request) {
+	println("HERE")
+	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	params := mux.Vars(r)
+	payload := getSelectSkills(params["search"])
+	json.NewEncoder(w).Encode(payload)
+}
+
 // CreateSkill makes a skill
 func CreateSkill(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
@@ -101,6 +111,33 @@ func EditSkill(w http.ResponseWriter, r *http.Request) {
 
 func getAllSkills() []primitive.M {
 	cursor, err := collection.Find(context.Background(), bson.D{{}})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var results []primitive.M
+	for cursor.Next(context.Background()) {
+		var result bson.M
+		e := cursor.Decode(&result)
+		if e != nil {
+			log.Fatal(e)
+		}
+
+		results = append(results, result)
+
+	}
+
+	if err := cursor.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	cursor.Close(context.Background())
+	return results
+
+}
+
+func getSelectSkills(skillName string) []primitive.M {
+	cursor, err := collection.Find(context.Background(), bson.D{{"name", skillName}})
 	if err != nil {
 		log.Fatal(err)
 	}
